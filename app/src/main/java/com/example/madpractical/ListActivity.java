@@ -16,27 +16,32 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class ListActivity extends AppCompatActivity {
+    ArrayList<User> userList = null;
+    DBHandler db = null;
+    RecyclerView rv = null;
+    ListAdapter adapter = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        ArrayList<User> userList = new ArrayList<>();
-        for(int i = 0; i<20; i++) {
-            int randomName = new Random().nextInt();
-            int randomDesc = new Random().nextInt();
-            boolean randomFollow = new Random().nextBoolean();
-            User u = new User();
-            u.setName("Name"+randomName);
-            u.setDesc("Description "+randomDesc);
-            u.setFollowed(randomFollow);
-            userList.add(u);
-        }
+        db = new DBHandler(this);
+        userList = db.getUsers();
 
-        RecyclerView rv = findViewById(R.id.listRV);
-        ListAdapter adapter = new ListAdapter(this, userList);
+        rv = findViewById(R.id.listRV);
+        adapter = new ListAdapter(this, userList);
         LinearLayoutManager lm = new LinearLayoutManager(this);
         rv.setLayoutManager(lm);
+        rv.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        userList = db.getUsers();
+        adapter = new ListAdapter(this, userList);
+        adapter.notifyDataSetChanged();
         rv.setAdapter(adapter);
     }
 }

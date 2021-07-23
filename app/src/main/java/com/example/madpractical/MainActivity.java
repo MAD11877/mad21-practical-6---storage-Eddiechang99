@@ -3,6 +3,7 @@ package com.example.madpractical;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 user.setFollowed(!user.getFollowed());
+                DBHandler db = new DBHandler(MainActivity.this);
+                db.updateUser(user);
                 if(user.getFollowed()) {
                     Toast.makeText(MainActivity.this, "Followed", Toast.LENGTH_SHORT).show();
                 }
@@ -36,14 +39,6 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Unfollowed", Toast.LENGTH_SHORT).show();
                 }
                 setFollowBtn();
-            }
-        });
-
-        messageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, ListActivity.class);
-                startActivity(i);
             }
         });
 

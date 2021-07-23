@@ -8,6 +8,10 @@ public class User implements Serializable {
     private int id;
     private boolean followed;
 
+    public int getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
@@ -18,6 +22,10 @@ public class User implements Serializable {
 
     public boolean getFollowed() {
         return followed;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setName(String name) {
